@@ -1,2 +1,6 @@
-package jpe;public enum Action {
+package jpe;
+
+public enum Action {
+
+    FORCE, ACCELERATION,
 }
