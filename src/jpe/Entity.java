@@ -1,5 +1,6 @@
 package jpe;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 
@@ -77,5 +78,51 @@ public class Entity {
         states.put("Velocity", this.velocity);
         states.put("Acceleration", this.acceleration);
         return states;
+    }
+
+    private void printStates(double time) {
+        System.out.println("--------------------------");
+        System.out.println("[TIME " + time + "]");
+        System.out.println("--------------------------");
+        System.out.println("Entity: " + this.name);
+        HashMap<String, double[]> states = this.inspectStates();
+        states.forEach((String state, double[] vector) -> System.out.println(state + " " + Arrays.toString(vector)));
+        System.out.println("--------------------------");
+        System.out.println("\n##########################\n");
+    }
+
+    private void printStates() {
+        System.out.println("--------------------------");
+        System.out.println("Entity: " + this.name);
+        HashMap<String, double[]> states = this.inspectStates();
+        states.forEach((String state, double[] vector) -> System.out.println(state + " " + Arrays.toString(vector)));
+        System.out.println("--------------------------");
+        System.out.println("\n##########################\n");
+    }
+
+
+    public void subjectTo(Parameter parameter, double timePeriod, boolean inspectAllStates) {
+        double timeInstant = Environment.getTimeInstant();
+        for (double t = timeInstant; t < (timePeriod + timeInstant); t += Environment.timeStep) {
+            if (parameter.action == Action.ACCELERATION) {
+                this.acceleration = parameter.acceleration;
+                Physics.accelerate(this, parameter);
+            }
+            if (inspectAllStates) {
+                printStates(Environment.getTimeInstant());
+            }
+            Environment.incrementTimeInstant();
+        }
+        if (!inspectAllStates) {
+            printStates(timePeriod);
+        }
+    }
+
+    public void subjectTo(Parameter parameter) {
+        if (parameter.action == Action.ACCELERATION) {
+            this.acceleration = parameter.acceleration;
+            Physics.accelerate(this, parameter);
+        }
+        printStates();
     }
 }
