@@ -1,5 +1,12 @@
 package jpe;
 
-public enum Execution {
-    Sequential, Parallel, Custom
+public class Execution {
+
+    public Execution() {
+
+    }
+
+    public void define() {
+
+    }
 }
