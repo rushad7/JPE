@@ -13,22 +13,23 @@ public class Entity {
     private double[] acceleration;
     private double mass;
 
-
-    public Entity(String name, double mass) {
+    public Entity(String name, double mass, boolean gravity) {
         this.name = name;
-
         this.position = new double[]{0, 0};
         this.velocity = new double[]{0, 0};
-        this.acceleration = new double[]{0, 0};
+        if (gravity) {
+            this.acceleration = new double[]{0, -9.8};
+        } else {
+            this.acceleration = new double[]{0, 0};
+        }
         this.mass = mass;
     }
 
     public Entity(String name, double[] position, double[] velocity, double[] acceleration, double mass) {
         this.name = name;
-
         this.position = position;
         this.velocity = velocity;
-        this.acceleration = acceleration;
+        this.acceleration = new double[]{acceleration[0], (acceleration[1] - 9.8)};
         this.mass = mass;
     }
 
@@ -107,6 +108,9 @@ public class Entity {
             if (parameter.action == Action.ACCELERATION) {
                 this.acceleration = parameter.acceleration;
                 Physics.accelerate(this, parameter);
+            } else if (parameter.action == Action.FORCE) {
+                this.acceleration = new double[]{parameter.force[0] / this.mass, parameter.force[1] / this.mass};
+                Physics.applyForce(this, parameter);
             }
             if (inspectAllStates) {
                 printStates(Environment.getTimeInstant());
@@ -122,7 +126,14 @@ public class Entity {
         if (parameter.action == Action.ACCELERATION) {
             this.acceleration = parameter.acceleration;
             Physics.accelerate(this, parameter);
+        } else if (parameter.action == Action.FORCE) {
+            Physics.applyForce(this, parameter);
         }
         printStates();
+    }
+
+    public double kineticEnergy() {
+        double velocityMagnitude = Math.sqrt(Math.pow(velocity[0], 2) + Math.pow(velocity[1], 2));
+        return 0.5 * mass * Math.pow(velocityMagnitude, 2);
     }
 }
