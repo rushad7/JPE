@@ -5,11 +5,14 @@ import java.util.ArrayList;
 
 public class Environment {
 
+    public static final double ACC_GRAV = 9.8;
     private static double timeInstant;
     protected ArrayList<Entity> entities;
     protected static double timeStep;
+    protected static double incline;
 
     public Environment(double timeStep) {
+        incline = 0;
         timeInstant = 0;
         entities = new ArrayList<>();
         Environment.timeStep = timeStep;
@@ -17,6 +20,10 @@ public class Environment {
 
     public void addEntity(Entity entity) {
         entities.add(entity);
+    }
+
+    public void setIncline(double incline) {
+        Environment.incline = incline;
     }
 
     public static double getTimeInstant() {
