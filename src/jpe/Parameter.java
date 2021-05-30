@@ -6,16 +6,18 @@ public class Parameter {
     protected final Action action;
     protected double[] acceleration;
     protected double[] force;
+    protected double[] coefficientOfFriction;
 
     public Parameter(Action action) {
         this.action = action;
+        coefficientOfFriction = new double[]{0, 0};
     }
 
     public void defineAcceleration(double[] acceleration) throws IncorrectParameterError {
         if (this.action == Action.ACCELERATION) {
             this.acceleration = acceleration;
         } else {
-            throw new IncorrectParameterError("Did not expect action 'ACCELERATE' here.");
+            throw new IncorrectParameterError("Expected action 'ACCELERATE' here.");
         }
     }
 
@@ -23,8 +25,12 @@ public class Parameter {
         if (this.action == Action.FORCE) {
             this.force = force;
         } else {
-            throw new IncorrectParameterError("Did not expect action 'FORCE' here.");
+            throw new IncorrectParameterError("Expected action 'FORCE' here.");
         }
+    }
+
+    public void defineFriction(double[] coefficientOfFriction) {
+        this.coefficientOfFriction = coefficientOfFriction;
     }
 
 }
