@@ -4,7 +4,7 @@ public class SeqParallelTest {
 
     public static Environment env = new Environment(1);
 
-    public static Entity e1 = new Entity("Entity1", 1);
+    public static Entity e1 = new Entity("Entity1", 1, true);
     public static Entity e2 = new Entity("Entity2", new double[]{1, 1},
             new double[]{0, 0}, new double[]{0, 0}, 1);
 
