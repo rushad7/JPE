@@ -11,7 +11,10 @@ public class Entity {
     private double[] position;
     private double[] velocity;
     private double[] acceleration;
+    private double[] angularAcceleration;
     private double mass;
+
+    protected HashMap<String, double[]> states;
 
     public Entity(String name, double mass, boolean gravity) {
         this.name = name;
@@ -22,7 +25,10 @@ public class Entity {
         } else {
             this.acceleration = new double[]{0, 0};
         }
+        this.angularAcceleration = new double[]{0, 0};
         this.mass = mass;
+
+        this.states = new HashMap<>();
     }
 
     public Entity(String name, double[] position, double[] velocity, double[] acceleration, double mass) {
@@ -30,7 +36,10 @@ public class Entity {
         this.position = position;
         this.velocity = velocity;
         this.acceleration = new double[]{acceleration[0], (acceleration[1] - 9.8)};
+        this.angularAcceleration = new double[]{0, 0};
         this.mass = mass;
+
+        this.states = new HashMap<>();
     }
 
     public double[] getPosition() {
@@ -57,6 +66,10 @@ public class Entity {
         this.acceleration = acceleration;
     }
 
+    public void setAngularAcceleration(double[] angularAcceleration) {
+        this.angularAcceleration = angularAcceleration;
+    }
+
     public double getMass() {
         return this.mass;
     }
@@ -74,10 +87,10 @@ public class Entity {
     }
 
     public HashMap<String, double[]> inspectStates() {
-        HashMap<String, double[]> states = new HashMap<>();
         states.put("Position", this.position);
         states.put("Velocity", this.velocity);
         states.put("Acceleration", this.acceleration);
+        states.put("Angular Acceleration", this.angularAcceleration);
         return states;
     }
 
