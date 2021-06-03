@@ -31,5 +31,11 @@ public class Physics {
         double py = entity.getPosition()[1] + vy * Environment.timeStep;
         entity.setPosition(new double[]{px, py});
     }
+
+    public static void applyTorque(Entity entity, double[] force, double radius, double angle) {
+        double alphaX = (force[0] * Math.sin(angle)) / (entity.getMass() * radius);
+        double alphaY = (force[1] * Math.sin(angle)) / (entity.getMass() * radius);
+        entity.setAngularAcceleration(new double[]{alphaX, alphaY});
+    }
 }
 
